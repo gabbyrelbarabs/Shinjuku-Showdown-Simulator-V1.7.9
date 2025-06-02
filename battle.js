@@ -133,10 +133,72 @@ let hollowRedCounter = 0;
 let maxBlueUses = 0;
 let maxRedUses = 0;
 
-let player,
-  boss,
-  platforms,
-  bullets,
+let player = {
+    x: 100 * scale,
+    y: groundLevel - 150 * scale,
+    width: 60 * scale,
+    height: 150 * scale,
+    vx: 0,
+    vy: 0,
+    speed: 4 * 1.3 * SPEED_FACTOR,
+    jumpStrength: -16 * 1.3 * 1.1 * SPEED_FACTOR,
+    isOnGround: true,
+    hp: 1000,
+    maxHp: 1000,
+    stunned: false,
+    stunTimer: 0,
+    frozenX: null,
+    frozenY: null,
+    lastDirection: "right",
+    dashing: false,
+    dashTimer: 0,
+    dashDirection: null,
+    dashCooldown: 0,
+    dashCount: 3,
+    dashRegenTimer: 0,
+    damageMultiplier: 1,
+    damageTimer: 0,
+    speedMultiplier: 1,
+    jumpMultiplier: 1,
+    speedTimer: 0,
+    invincible: false,
+    invincibleTimer: 0,
+    thorn: false,
+    thornTimer: 0,
+    timerStopped: false,
+    timerStoppedTimer: 0,
+    contactDamageTimer: 0,
+    dragged: false,
+	stunned: false
+  };
+  
+let boss = {
+    x: 600 * scale,
+    y: groundLevel - 200 * scale,
+    width: 80 * scale,
+    height: 200 * scale,
+    vx: 0,
+    vy: 0,
+    speed: 2.3 * SPEED_FACTOR,
+    hp: 50000,
+    maxHp: 50000,
+    state: "normal",
+    stateTimer: 0,
+    attackCooldown: 0,
+    airTime: 0,
+    laserAttackPhase: "",
+    laserAttackTotalTime: 0,
+    laserSpawnTimer: 0,
+    groundLasers: [],
+    chargeTimer: 0,
+    dashAfterimages: [],
+    needsSlamShake: false,
+    hasDamagedPlayerDash: false
+  };
+  
+let bullets = [];
+
+let platforms,
   superAttack,
   totalBulletsFired,
   activePowerup;
@@ -538,7 +600,7 @@ function spawnPhase2ExtraBosses() {
   
   bossAgito = {
     x: platforms[0].x,
-    y: platforms[0].y - 50 * scale,
+    y: platforms[0].y - 40 * scale,
     width: boss.width * 0.8,
     height: boss.height * 0.8,
     vx: 0,
